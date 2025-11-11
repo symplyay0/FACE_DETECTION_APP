@@ -6,47 +6,65 @@
 <style>
     body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0a0a0a, #003300);
-        color: #00ff99;
+        background: #0b2e13;
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        height: 100vh;
+        justify-content: flex-start;
+        padding: 40px 20px;
         margin: 0;
     }
-    h1, h2 {
+    h1 {
+        color: #00ff99;
         text-shadow: 0 0 10px #00ff99;
+        margin-bottom: 25px;
     }
-    img {
-        margin-top: 20px;
-        width: 250px;
-        height: 250px;
+    .card {
+        background: #07210a;
+        padding: 25px;
         border-radius: 15px;
-        object-fit: cover;
-        border: 2px solid #00ff99;
-        box-shadow: 0 0 20px rgba(0,255,153,0.4);
+        box-shadow: 0 0 30px rgba(0,255,153,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 350px;
+        text-align: center;
     }
-    a {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #00ff99;
-        color: #111;
+    .card img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 2px solid #00ff99;
+    }
+    .card p {
+        font-size: 18px;
+        margin: 5px 0;
+    }
+    .card a {
+        margin-top: 15px;
+        display: inline-block;
         text-decoration: none;
+        color: #0b2e13;
+        background: #00ff99;
+        padding: 10px 20px;
         border-radius: 8px;
         font-weight: bold;
         transition: 0.3s;
     }
-    a:hover {
+    .card a:hover {
         background-color: #00cc77;
         transform: scale(1.05);
     }
 </style>
 </head>
 <body>
-    <h1>Hi, {{ name }}!</h1>
-    <h2>Your emotion is: {{ emotion }}</h2>
-    <img src="/{{ image_path }}" alt="Uploaded Image">
-    <a href="/">Try Another Image</a>
+    <h1>🎯 Detection Result</h1>
+    <div class="card">
+        <img src="{{ image_url }}" alt="Uploaded Image">
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Detected Emotion:</strong> {{ emotion }}</p>
+        <a href="/">⬅ Detect Another</a>
+    </div>
 </body>
 </html>

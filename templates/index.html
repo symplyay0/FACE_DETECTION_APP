@@ -6,8 +6,8 @@
 <style>
     body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0a0a0a, #003300);
-        color: #00ff99;
+        background: #0b2e13;
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -18,31 +18,37 @@
     h1 {
         color: #00ff99;
         text-shadow: 0 0 10px #00ff99;
+        margin-bottom: 20px;
     }
     form {
-        background: #111;
+        background: #07210a;
         padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 0 30px rgba(0,255,153,0.2);
-        text-align: center;
-        width: 320px;
+        box-shadow: 0 0 30px rgba(0,255,153,0.3);
+        display: flex;
+        flex-direction: column;
+        width: 300px;
     }
-    input, button {
-        width: 100%;
+    input[type="text"], input[type="file"] {
         padding: 10px;
         margin: 10px 0;
         border-radius: 8px;
         border: 1px solid #00ff99;
-        background: transparent;
-        color: #00ff99;
-        font-size: 1em;
+        background: #0b2e13;
+        color: #fff;
+        box-sizing: border-box;
     }
     button {
+        padding: 12px 0;
+        margin-top: 15px;
+        border: none;
+        border-radius: 8px;
         background-color: #00ff99;
-        color: #111;
-        cursor: pointer;
+        color: #0b2e13;
         font-weight: bold;
+        cursor: pointer;
         transition: 0.3s;
+        box-shadow: 0 0 10px rgba(0,255,153,0.5);
     }
     button:hover {
         background-color: #00cc77;
