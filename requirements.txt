@@ -1,4 +1,4 @@
-flask
+Flask
 Werkzeug
 tensorflow
 keras
@@ -6,3 +6,4 @@ opencv-python
 Pillow
 h5py
 numpy
+gunicorn
