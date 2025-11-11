@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Emotion Detection App</title>
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #1c1c1c, #333);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+    h1 { color: #00ff99; text-shadow: 0 0 10px #00ff99; }
+    form { background: #222; padding: 30px; border-radius: 15px; box-shadow: 0 0 30px rgba(0,255,153,0.3); }
+    input[type="text"], input[type="file"] {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #00ff99;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 25px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 8px;
+        background-color: #00ff99;
+        color: #111;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover { background-color: #00cc77; transform: scale(1.05); }
+</style>
+</head>
+<body>
+    <h1>🎭 Emotion Detection</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Enter Your Name" required>
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Detect Emotion</button>
+    </form>
+</body>
+</html>
