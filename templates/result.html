@@ -2,83 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Emotion Detection Result</title>
+<title>Detection Result</title>
 <style>
     body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #1c1c1c, #333);
-        color: white;
+        background: linear-gradient(135deg, #0a0a0a, #003300);
+        color: #00ff99;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
         margin: 0;
-        text-align: center;
     }
-    h1 {
-        color: #00ff99;
+    h1, h2 {
         text-shadow: 0 0 10px #00ff99;
-        margin-bottom: 25px;
-        letter-spacing: 1px;
-    }
-    .card {
-        background: #222;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 0 30px rgba(0,255,153,0.3);
-        width: 340px;
-        max-width: 90%;
-    }
-    .emotion {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #00ff99;
-        text-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99;
-        margin-bottom: 20px;
-        animation: glowPulse 2s infinite ease-in-out;
-    }
-    @keyframes glowPulse {
-        0% { text-shadow: 0 0 10px #00ff99; }
-        50% { text-shadow: 0 0 25px #00ff99, 0 0 40px #00ff99; }
-        100% { text-shadow: 0 0 10px #00ff99; }
     }
     img {
-        width: 100%;
-        border-radius: 10px;
+        margin-top: 20px;
+        width: 250px;
+        height: 250px;
+        border-radius: 15px;
+        object-fit: cover;
         border: 2px solid #00ff99;
-        box-shadow: 0 0 15px rgba(0,255,153,0.3);
+        box-shadow: 0 0 20px rgba(0,255,153,0.4);
     }
-    .back-btn {
-        padding: 10px 25px;
-        margin-top: 25px;
-        border: none;
-        border-radius: 8px;
+    a {
+        margin-top: 20px;
+        padding: 10px 20px;
         background-color: #00ff99;
         color: #111;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
         text-decoration: none;
-        display: inline-block;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
     }
-    .back-btn:hover {
+    a:hover {
         background-color: #00cc77;
         transform: scale(1.05);
     }
 </style>
 </head>
 <body>
-    <h1>🎭 Emotion Detection Result</h1>
-    <div class="card">
-        <div class="emotion">{{ emotion }}</div>
-
-        {% if image_path %}
-<img src="{{ url_for('static', filename='uploads/' + image_path.split('uploads/')[-1]) }}" alt="Uploaded Image">
-{% endif %}
-
-        
-        <a href="/" class="back-btn">Try Another Image</a>
-    </div>
+    <h1>Hi, {{ name }}!</h1>
+    <h2>Your emotion is: {{ emotion }}</h2>
+    <img src="/{{ image_path }}" alt="Uploaded Image">
+    <a href="/">Try Another Image</a>
 </body>
 </html>

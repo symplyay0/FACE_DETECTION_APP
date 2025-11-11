@@ -1,98 +1,54 @@
-from flask import Flask, render_template, request, redirect, url_for
-from tensorflow.keras.models import load_model
+from flask import Flask, render_template, request
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
 import numpy as np
-import cv2
 import os
-import sqlite3
 from werkzeug.utils import secure_filename
 
-# ----------------------------
-# Flask setup
-# ----------------------------
-app = Flask(__name__, static_url_path='/uploads', static_folder='uploads')
-app.config['UPLOAD_FOLDER'] = 'uploads'
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+# --- App Setup ---
+app = Flask(__name__)
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# ----------------------------
-# Load model
-# ----------------------------
-import os
-from tensorflow.keras.models import load_model
+# --- Load Model ---
+MODEL_PATH = "trained_emotion_model_compressed.h5"
+model = tf.keras.models.load_model(MODEL_PATH)
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(base_dir, "trained_emotion_model_compressed_fp16.h5")
-model = load_model(model_path)
+# --- Emotion labels ---
+emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
-
-emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
-
-# ----------------------------
-# Database setup
-# ----------------------------
-DB_PATH = "emotion_users.db"
-
-def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            image_path TEXT,
-            detected_emotion TEXT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-def save_user_result(name, image_path, emotion):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO users (name, image_path, detected_emotion) VALUES (?, ?, ?)',
-                   (name, image_path, emotion))
-    conn.commit()
-    conn.close()
-
-init_db()
-
-# ----------------------------
-# Emotion prediction
-# ----------------------------
-def predict_emotion(image_path):
-    img = cv2.imread(image_path)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    resized = cv2.resize(gray, (48,48))
-    normalized = resized / 255.0
-    reshaped = np.reshape(normalized, (1,48,48,1))
-    result = model.predict(reshaped)
-    return emotion_labels[np.argmax(result)]
-
-# ----------------------------
-# Routes
-# ----------------------------
+# --- Routes ---
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    file = request.files.get('file')
-    name = request.form.get('name', 'Anonymous')
+    name = request.form['name']
+    file = request.files['file']
 
-    if not file or file.filename == '':
-        return redirect(url_for('index'))
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
 
-    filename = secure_filename(file.filename)
-    save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(save_path)
+        # Preprocess the image
+        img = image.load_img(filepath, target_size=(48, 48), color_mode='grayscale')
+        img_array = image.img_to_array(img)
+        img_array = np.expand_dims(img_array, axis=0) / 255.0
 
-    emotion = predict_emotion(save_path)
-    save_user_result(name, save_path, emotion)
+        # Predict
+        prediction = model.predict(img_array)
+        emotion = emotions[np.argmax(prediction)]
 
-    # Note the corrected image URL
-    image_url = url_for('static', filename=filename) if os.path.exists(os.path.join('static', filename)) else f"/uploads/{filename}"
-    return render_template('result.html', name=name, emotion=emotion, image_url=image_url)
+        return render_template(
+            'result.html',
+            name=name,
+            emotion=emotion,
+            image_path=filepath
+        )
 
-if __name__ == "__main__":
+    return "No file uploaded."
+
+if __name__ == '__main__':
     app.run(debug=True)
