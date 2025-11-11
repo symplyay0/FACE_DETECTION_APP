@@ -1,13 +1,8 @@
-# Flask for the web app
-flask==2.3.3
-Werkzeug==2.3.7
-
-# TensorFlow and Keras for the model
-tensorflow==2.20.0
-keras==2.20.0
-
-# For image processing
-opencv-python==4.8.0.76
-Pillow==10.0.0
-h5py==3.9.0
-numpy==1.25.2
+flask
+Werkzeug
+tensorflow
+keras
+opencv-python
+Pillow
+h5py
+numpy
