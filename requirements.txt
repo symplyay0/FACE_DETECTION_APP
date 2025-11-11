@@ -1,8 +1,8 @@
-Flask==2.3.5
+Flask==2.3.3
 tensorflow==2.14.0
 keras==2.14.0
-numpy==1.26.4
-opencv-python==4.9.1.26
+numpy==1.26.5
+opencv-python==4.8.1.78
 h5py==3.9.0
-Werkzeug==2.3.7
-gunicorn==23.2.0
+werkzeug==2.3.8
+pyngrok==6.2.1
